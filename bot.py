@@ -33,6 +33,12 @@ async def claim(message: Message):
         f"আপনি {reward} Coins পেয়েছেন.\n"
         f"💰 মোট Balance: {user_balance[user_id]} Coins"
     )
+    @dp.message(Command("balance"))
+async def balance(message: Message):
+    user_id = message.from_user.id
+    balance = user_balance.get(user_id, 0)
+
+    await message.answer(f"💰 আপনার Balance: {balance} Coins")
     keyboard = InlineKeyboardMarkup(
         inline_keyboard=[
             [
