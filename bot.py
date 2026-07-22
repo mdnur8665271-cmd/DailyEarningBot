@@ -9,14 +9,36 @@ BOT_TOKEN = os.getenv("BOT_TOKEN")
 bot = Bot(BOT_TOKEN)
 dp = Dispatcher()
 
+# User balance
+user_balance = {}
+
 @dp.message(Command("start"))
 async def start(message: Message):
-    
-    await message.answer("🎉 Welcome to Daily Earning Bot!")
+    await message.answer(
+        "🎉 Welcome to Daily Earning Bot!\n\n"
+        "📺 /ads - Watch Ad\n"
+        "🎁 /claim - Claim Reward\n"
+        "💰 /balance - Check Balance"
+    )
 
 @dp.message(Command("ads"))
 async def ads(message: Message):
-    user_balance = {}
+    keyboard = InlineKeyboardMarkup(
+        inline_keyboard=[
+            [
+                InlineKeyboardButton(
+                    text="🎥 Watch Ad",
+                    url="https://omg10.com/4/11368110"
+                )
+            ]
+        ]
+    )
+
+    await message.answer(
+        "💰 Reward পেতে নিচের বাটনে ক্লিক করুন।\n"
+        "Ad দেখার পর /claim লিখুন।",
+        reply_markup=keyboard
+    )
 
 @dp.message(Command("claim"))
 async def claim(message: Message):
@@ -33,26 +55,14 @@ async def claim(message: Message):
         f"আপনি {reward} Coins পেয়েছেন.\n"
         f"💰 মোট Balance: {user_balance[user_id]} Coins"
     )
-    @dp.message(Command("balance"))
+
+@dp.message(Command("balance"))
 async def balance(message: Message):
     user_id = message.from_user.id
     balance = user_balance.get(user_id, 0)
 
-    await message.answer(f"💰 আপনার Balance: {balance} Coins")
-    keyboard = InlineKeyboardMarkup(
-        inline_keyboard=[
-            [
-                InlineKeyboardButton(
-                    text="🎥 Watch Ad",
-                    url="https://omg10.com/4/11368110"
-                )
-            ]
-        ]
-    )
-
     await message.answer(
-        "💰 Reward পেতে নিচের বাটনে ক্লিক করুন।",
-        reply_markup=keyboard
+        f"💰 আপনার Balance: {balance} Coins"
     )
 
 async def main():
