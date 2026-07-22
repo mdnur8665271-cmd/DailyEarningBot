@@ -11,10 +11,28 @@ dp = Dispatcher()
 
 @dp.message(Command("start"))
 async def start(message: Message):
+    
     await message.answer("🎉 Welcome to Daily Earning Bot!")
 
 @dp.message(Command("ads"))
 async def ads(message: Message):
+    user_balance = {}
+
+@dp.message(Command("claim"))
+async def claim(message: Message):
+    user_id = message.from_user.id
+
+    if user_id not in user_balance:
+        user_balance[user_id] = 0
+
+    reward = 10
+    user_balance[user_id] += reward
+
+    await message.answer(
+        f"🎉 অভিনন্দন!\n"
+        f"আপনি {reward} Coins পেয়েছেন.\n"
+        f"💰 মোট Balance: {user_balance[user_id]} Coins"
+    )
     keyboard = InlineKeyboardMarkup(
         inline_keyboard=[
             [
