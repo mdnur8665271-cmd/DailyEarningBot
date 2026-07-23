@@ -1,2 +1,0 @@
-# DailyEarningBot
-Telegram earning bot
